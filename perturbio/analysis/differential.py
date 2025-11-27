@@ -268,8 +268,10 @@ def _identify_control_cells(
         # Exact match
         control_mask |= (adata.obs[groupby] == label)
 
-        # Case-insensitive partial match for common patterns
-        for pattern in [label, 'control', 'non-targeting', 'ntc']:
+    # If no cells found with exact match, try pattern matching for default controls
+    if control_mask.sum() == 0 and control == 'non-targeting':
+        # Only do auto-detection for default control label
+        for pattern in ['control', 'non-targeting', 'ntc']:
             pattern_mask = adata.obs[groupby].str.contains(
                 pattern, case=False, na=False, regex=False
             )

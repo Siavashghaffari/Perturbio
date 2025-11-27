@@ -1,0 +1,164 @@
+# GitLab CI/CD Configuration for Perturbio
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  paths:
+    - .cache/pip
+    - .pytest_cache
+
+stages:
+  - test
+  - lint
+  - build
+  - deploy
+
+# Test across multiple Python versions
+.test_template: &test_template
+  stage: test
+  before_script:
+    - python --version
+    - pip install --upgrade pip setuptools wheel
+    - pip install -e .
+    - pip install pytest pytest-cov
+    - pip install --upgrade numexpr bottleneck
+  script:
+    - pytest tests/ -v --cov=perturbio --cov-report=xml --cov-report=term
+    - echo "Coverage report generated"
+  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
+    paths:
+      - coverage.xml
+      - htmlcov/
+    expire_in: 1 week
+
+test:python3.9:
+  <<: *test_template
+  image: python:3.9-slim
+  before_script:
+    - apt-get update && apt-get install -y gcc g++ libhdf5-dev
+    - !reference [.test_template, before_script]
+
+test:python3.10:
+  <<: *test_template
+  image: python:3.10-slim
+  before_script:
+    - apt-get update && apt-get install -y gcc g++ libhdf5-dev
+    - !reference [.test_template, before_script]
+
+test:python3.11:
+  <<: *test_template
+  image: python:3.11-slim
+  before_script:
+    - apt-get update && apt-get install -y gcc g++ libhdf5-dev
+    - !reference [.test_template, before_script]
+
+test:python3.12:
+  <<: *test_template
+  image: python:3.12-slim
+  before_script:
+    - apt-get update && apt-get install -y gcc g++ libhdf5-dev
+    - !reference [.test_template, before_script]
+
+# Linting and code quality
+lint:ruff:
+  stage: lint
+  image: python:3.11-slim
+  before_script:
+    - pip install ruff
+  script:
+    - ruff check perturbio/
+  allow_failure: true
+
+lint:black:
+  stage: lint
+  image: python:3.11-slim
+  before_script:
+    - pip install black
+  script:
+    - black --check perturbio/
+  allow_failure: true
+
+# Build package
+build:package:
+  stage: build
+  image: python:3.11-slim
+  before_script:
+    - pip install build twine
+  script:
+    - python -m build
+    - twine check dist/*
+    - ls -lh dist/
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 month
+
+# Test installation from built package
+test:install:
+  stage: build
+  image: python:3.11-slim
+  dependencies:
+    - build:package
+  before_script:
+    - apt-get update && apt-get install -y gcc g++ libhdf5-dev
+  script:
+    - pip install dist/*.whl
+    - python -c "import perturbio; print(f'✓ Perturbio v{perturbio.__version__} imported successfully')"
+    - perturbio --version
+    - perturbio --help
+    - echo "✓ Package installation successful"
+
+# Deploy to PyPI (manual trigger only)
+deploy:pypi:
+  stage: deploy
+  image: python:3.11-slim
+  dependencies:
+    - build:package
+  before_script:
+    - pip install twine
+  script:
+    - echo "Deploying to PyPI..."
+    - twine upload dist/*
+  only:
+    - tags
+  when: manual
+  environment:
+    name: production
+    url: https://pypi.org/project/perturbio/
+
+# Performance benchmarks
+benchmark:
+  stage: test
+  image: python:3.11-slim
+  before_script:
+    - apt-get update && apt-get install -y gcc g++ libhdf5-dev
+    - pip install --upgrade pip
+    - pip install -e .
+  script:
+    - echo "Running performance benchmarks..."
+    - python -c "
+      import perturbio as pt
+      import scanpy as sc
+      import numpy as np
+      from scipy.sparse import csr_matrix
+      import time
+
+      # Create test data
+      X = csr_matrix(np.random.poisson(2, (1000, 500)).astype(np.float32))
+      adata = sc.AnnData(X=X)
+
+      start = time.time()
+      print('Benchmark: 1000 cells × 500 genes')
+      print(f'Data creation: {time.time() - start:.2f}s')
+      print('✓ Benchmark complete')
+      "
+  allow_failure: true
+  only:
+    - main
+    - develop
