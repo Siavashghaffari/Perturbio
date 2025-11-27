@@ -1,0 +1,49 @@
+name: Quick Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  quick-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.11']
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libhdf5-dev
+
+    - name: Install package and dependencies
+      run: |
+        python -m pip install --upgrade pip setuptools wheel
+        pip install -e .
+        pip install pytest pytest-cov
+        pip install --upgrade numexpr bottleneck
+
+    - name: Run tests
+      run: |
+        pytest tests/ -v --cov=perturbio --cov-report=term
+
+    - name: Test CLI
+      run: |
+        perturbio --version
+        perturbio --help
+
+    - name: Test import
+      run: |
+        python -c "import perturbio; print(f'✓ Perturbio v{perturbio.__version__}')"

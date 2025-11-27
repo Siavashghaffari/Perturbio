@@ -49,14 +49,13 @@ jobs:
 
     - name: Upload release artifacts
       if: github.event_name == 'release'
-      uses: actions/upload-release-asset@v1
+      shell: bash
+      run: |
+        for file in dist/*; do
+          gh release upload ${{ github.event.release.tag_name }} "$file"
+        done
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./dist/perturbio-${{ github.event.release.tag_name }}.tar.gz
-        asset_name: perturbio-${{ github.event.release.tag_name }}.tar.gz
-        asset_content_type: application/gzip
 
   test-installation:
     needs: build-and-publish
