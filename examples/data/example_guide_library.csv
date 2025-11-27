@@ -1,0 +1,14 @@
+guide_id,target_gene,guide_sequence,description
+BRCA1_guide1,BRCA1,GCACTCAGGAAACAGCTATG,BRCA1 knockout guide 1
+BRCA1_guide2,BRCA1,CTGAAGACTGCTCAGTGTAG,BRCA1 knockout guide 2
+MYC_guide1,MYC,GTACTTGGTGAGGCCAGCGC,MYC knockout guide 1
+MYC_guide2,MYC,TACAGCGTGGTGGTGCCTAT,MYC knockout guide 2
+TP53_guide1,TP53,CCATTGTTCAATATCGTCCG,TP53 knockout guide 1
+TP53_guide2,TP53,GTCATAAAAGACGTTCTCCA,TP53 knockout guide 2
+EGFR_guide1,EGFR,GTTACGCCAAGCGGTTAGCG,EGFR knockout guide 1
+KRAS_guide1,KRAS,GACGATACAGCTAATTCAGA,KRAS knockout guide 1
+PTEN_guide1,PTEN,CACAGCTAGAACTATCAGGG,PTEN knockout guide 1
+CDK4_guide1,CDK4,GGACCTGGCAATTCGGGCC,CDK4 knockout guide 1
+non-targeting_1,control,GTAGCGAACGTGTCCGGCGT,Non-targeting control 1
+non-targeting_2,control,ACGGAGGCTAAGCGTCGCAA,Non-targeting control 2
+non-targeting_3,control,GCACTACCAGAGCTAACTCA,Non-targeting control 3
