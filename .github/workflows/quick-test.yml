@@ -46,4 +46,4 @@ jobs:
 
     - name: Test import
       run: |
-        python -c "import perturbio; print(f'✓ Perturbio v{perturbio.__version__}')"
+        python -c "import perturbio; print(f'Perturbio v{perturbio.__version__} imported successfully')"

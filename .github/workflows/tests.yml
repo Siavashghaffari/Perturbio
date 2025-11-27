@@ -162,7 +162,7 @@ jobs:
 
     - name: Test import
       run: |
-        python -c "import perturbio; print(f'✓ Perturbio v{perturbio.__version__} imported successfully')"
+        python -c "import perturbio; print(f'Perturbio v{perturbio.__version__} imported successfully')"
 
     - name: Test CLI
       run: |

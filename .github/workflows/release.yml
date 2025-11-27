@@ -80,5 +80,5 @@ jobs:
 
     - name: Test installation
       run: |
-        python -c "import perturbio; print(f'✓ Perturbio v{perturbio.__version__}')"
+        python -c "import perturbio; print(f'Perturbio v{perturbio.__version__} installed successfully')"
         perturbio --version
