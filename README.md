@@ -35,7 +35,7 @@ pip install perturbio
 Or install from source:
 
 ```bash
-git clone https://github.com/perturbio/perturbio.git
+git clone https://github.com/Perturbio/perturbio.git
 cd perturbio
 pip install -e .
 ```
@@ -115,29 +115,5 @@ non-targeting_1,control,GTAGCGAACGTGTCCGGCGT
 
 This work was developed by **Siavash Ghaffari**. For any questions, feedback, or additional information, please feel free to reach out. Your input is highly valued and will help improve and refine this pipeline further.
 
-## Citation
 
-If you use Perturbio in your research, please cite:
 
-```
-@software{perturbio2025,
-  title = {Perturbio: Comprehensive Crop-Seq Analysis in Python},
-  author = {Siavash Ghaffari},
-  year = {2025},
-  url = {https://github.com/perturbio/perturbio}
-}
-```
-
-## Contributing
-
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-## Support
-
-- [GitHub Issues](https://github.com/perturbio/perturbio/issues)
-- [Documentation](https://perturbio.readthedocs.io)
-- [Discussions](https://github.com/perturbio/perturbio/discussions)
-
----
-
-**The Magical Moment**: From Crop-Seq data to discovering perturbed genes in under 5 minutes.
