@@ -35,7 +35,7 @@ pip install perturbio
 Or install from source:
 
 ```bash
-git clone https://github.com/Perturbio/perturbio.git
+git clone https://github.com/Siavashghaffari/Perturbio.git
 cd perturbio
 pip install -e .
 ```
