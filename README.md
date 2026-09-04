@@ -102,10 +102,12 @@ non-targeting_1,control,GTAGCGAACGTGTCCGGCGT
 
 ## Documentation
 
-- [Installation Guide](docs/installation.md)
-- [Quick Start Tutorial](docs/quickstart.md)
-- [API Reference](https://perturbio.readthedocs.io)
-- [Example Notebooks](examples/)
+- [Installation](#installation)
+- [Quick Start Tutorial](examples/01_quickstart.ipynb)
+- [Complete Workflow](examples/02_complete_workflow.ipynb)
+- [Scanpy Integration Guide](examples/03_advanced_scanpy_integration.md)
+- [CLI Examples](examples/04_cli_examples.md)
+- [All Examples](examples/)
 
 ## Requirements
 
