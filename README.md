@@ -28,16 +28,18 @@
 
 ## Installation
 
-```bash
-pip install perturbio
-```
-
-Or install from source:
+Install from source:
 
 ```bash
 git clone https://github.com/Siavashghaffari/Perturbio.git
-cd perturbio
+cd Perturbio
 pip install -e .
+```
+
+Once released on PyPI:
+
+```bash
+pip install perturbio
 ```
 
 ## Quick Start

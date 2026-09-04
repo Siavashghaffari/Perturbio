@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=65.0", "wheel"]
+requires = ["setuptools>=77.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,6 +7,8 @@ name = "perturbio"
 version = "0.1.0"
 description = "Comprehensive Python package for Crop-Seq (CRISPR + single-cell RNA-seq) analysis"
 readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.9"
 authors = [
     {name = "Siavash Ghaffari"}
@@ -62,10 +64,10 @@ all = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/perturbio/perturbio"
-Documentation = "https://perturbio.readthedocs.io"
-Repository = "https://github.com/perturbio/perturbio"
-"Bug Tracker" = "https://github.com/perturbio/perturbio/issues"
+Homepage = "https://github.com/Siavashghaffari/Perturbio"
+Documentation = "https://github.com/Siavashghaffari/Perturbio#readme"
+Repository = "https://github.com/Siavashghaffari/Perturbio"
+"Bug Tracker" = "https://github.com/Siavashghaffari/Perturbio/issues"
 
 [project.scripts]
 perturbio = "perturbio.cli:main"
