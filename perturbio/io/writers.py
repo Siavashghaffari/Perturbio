@@ -232,8 +232,8 @@ def write_summary(
 
             # Top perturbations
             if 'perturbation' in de_results.columns:
-                top_perturbs = de_results.groupby('perturbation').apply(
-                    lambda x: (x['pval_adj'] < 0.05).sum()
+                top_perturbs = de_results.groupby('perturbation')['pval_adj'].apply(
+                    lambda x: (x < 0.05).sum()
                 ).nlargest(5)
 
                 f.write(f"\nTop 5 Perturbations by Number of Significant Genes:\n")

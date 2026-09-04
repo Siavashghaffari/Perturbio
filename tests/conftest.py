@@ -18,8 +18,8 @@ def mock_adata():
     n_cells = 100
     n_genes = 50
 
-    # Sparse matrix with counts
-    X = csr_matrix(np.random.poisson(2, size=(n_cells, n_genes)).astype(np.float32))
+    # Dense counts first; converted to sparse once the guides are filled in
+    X = np.random.poisson(2, size=(n_cells, n_genes)).astype(np.float32)
 
     # Create gene names
     var_names = [f"Gene_{i}" for i in range(n_genes)]
@@ -34,21 +34,24 @@ def mock_adata():
     ]
     var_names[:len(guide_names)] = guide_names
 
-    # Create AnnData
-    adata = ad.AnnData(
-        X=X,
-        obs=pd.DataFrame(index=[f"Cell_{i}" for i in range(n_cells)]),
-        var=pd.DataFrame(index=var_names),
-    )
-
-    # Add guide expression (make some cells express each guide)
+    # Add guide expression (make some cells express each guide).
+    # Done while X is still dense: assigning into a csr_matrix adds new
+    # non-zeros, which changes its sparsity structure and is what raises
+    # SparseEfficiencyWarning.
     for i, guide in enumerate(guide_names):
-        guide_idx = list(adata.var_names).index(guide)
+        guide_idx = var_names.index(guide)
         # Assign guide to specific cells
         start = i * 15
         end = start + 15
         if end <= n_cells:
-            adata.X[start:end, guide_idx] = np.random.poisson(10, size=end-start)
+            X[start:end, guide_idx] = np.random.poisson(10, size=end-start)
+
+    # Create AnnData
+    adata = ad.AnnData(
+        X=csr_matrix(X),
+        obs=pd.DataFrame(index=[f"Cell_{i}" for i in range(n_cells)]),
+        var=pd.DataFrame(index=var_names),
+    )
 
     return adata
 
