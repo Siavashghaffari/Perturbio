@@ -1,5 +1,9 @@
 # Perturbio
 
+[![PyPI](https://img.shields.io/pypi/v/perturbio)](https://pypi.org/project/perturbio/)
+[![Python](https://img.shields.io/pypi/pyversions/perturbio)](https://pypi.org/project/perturbio/)
+[![License](https://img.shields.io/pypi/l/perturbio)](LICENSE)
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                                                                 │
@@ -28,18 +32,16 @@
 
 ## Installation
 
-Install from source:
+```bash
+pip install perturbio
+```
+
+### From source
 
 ```bash
 git clone https://github.com/Siavashghaffari/Perturbio.git
 cd Perturbio
 pip install -e .
-```
-
-Once released on PyPI:
-
-```bash
-pip install perturbio
 ```
 
 ## Quick Start
